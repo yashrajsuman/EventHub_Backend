@@ -1,0 +1,48 @@
+# =========================================================================
+# Build Tools (Maven and Gradle)
+# =========================================================================
+target/
+build/
+.gradle/
+/out/
+
+# =========================================================================
+# IDEs and Editors
+# =========================================================================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse / STS (Spring Tool Suite)
+.metadata/
+.classpath
+.project
+.settings/
+.factorypath
+.springBeans
+.sts4-cache
+
+# VS Code
+.vscode/
+
+# =========================================================================
+# Sensitive Configurations & Environment Files
+# =========================================================================
+.env
+src/main/resources/application.properties
+*.yml.local
+
+# DO NOT completely ignore application.properties/yml if they hold default layout templates.
+# Instead, ignore files where you store actual local passwords/secrets:
+# application-local.properties
+# application-local.yml
+
+# =========================================================================
+# System Files and Logs
+# =========================================================================
+*.log
+logs/
+.DS_Store
+Thumbs.db
