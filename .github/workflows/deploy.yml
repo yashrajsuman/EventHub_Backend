@@ -1,4 +1,4 @@
-name: Build and deploy JAR app to Azure Web App - eventhub
+name: Build and deploy JAR app to Azure Web App - eventhub 
 
 on:
   push:
