@@ -4,3 +4,4 @@ class EventNotFoundException extends RuntimeException { }
 class EventFullException extends RuntimeException { }
 class DuplicateRegistrationException extends RuntimeException { }
 class EventCapacityException extends RuntimeException { }
+class ProfileIncompleteException extends RuntimeException { }

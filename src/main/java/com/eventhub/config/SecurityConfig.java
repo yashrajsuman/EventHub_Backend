@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .requestCache(cache -> cache.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/gigs/**").permitAll()
                         .anyRequest().denyAll())
                 .httpBasic(Customizer.withDefaults())

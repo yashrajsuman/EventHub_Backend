@@ -48,23 +48,14 @@ class SecurityIntegrationTest {
     }
 
     @Test
-    void workerCanConfirmRegistrationWithAnUploadedPicture() throws Exception {
+    void eventRegistrationRequiresAnAuthenticatedProfile() throws Exception {
         String event = mvc.perform(post("/api/admin/gigs").with(httpBasic("admin", "admin123"))
                         .contentType(MediaType.APPLICATION_JSON).content(EVENT_JSON))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
         String eventId = event.replaceAll(".*\\\"id\\\":(\\d+).*", "$1");
-        String picture = "data:image/png;base64," + "A".repeat(1_000);
-        String registration = """
-                {"name":"Sam Worker","email":"sam@example.com","phoneNumber":"+91 98765 43210","age":25,
-                 "gender":"Non-binary","location":"Pune","height":170,"weight":65,"education":"Bachelor's",
-                 "experience":"Event setup","picture":"%s"}
-                """.formatted(picture);
-
         mvc.perform(post("/api/gigs/{eventId}/registrations", eventId)
-                        .contentType(MediaType.APPLICATION_JSON).content(registration))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.registeredCount").value(1))
-                .andExpect(jsonPath("$.spotsLeft").value(24));
+                        .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isBadRequest());
     }
 }

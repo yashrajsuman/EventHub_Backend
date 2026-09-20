@@ -5,12 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
+import com.eventhub.auth.AuthService;
 
 @RestController
 @RequestMapping("/api")
 public class EventController {
     private final EventService events;
-    public EventController(EventService events) { this.events = events; }
+    private final AuthService auth;
+    public EventController(EventService events, AuthService auth) { this.events = events; this.auth = auth; }
 
     @PostMapping("/admin/gigs")
     @ResponseStatus(HttpStatus.CREATED)
@@ -33,8 +35,11 @@ public class EventController {
     @GetMapping("/gigs")
     public List<EventResponse> getEvents() { return events.list(); }
 
+    @GetMapping("/gigs/registrations/mine")
+    public List<Long> myRegistrations(@RequestHeader("Authorization") String token) { return events.registeredEventIds(auth.requireUser(token)); }
+
     @PostMapping("/gigs/{eventId}/registrations")
-    public EventResponse register(@PathVariable Long eventId, @Valid @RequestBody RegisterRequest request) { return events.register(eventId, request); }
+    public EventResponse register(@PathVariable Long eventId, @RequestHeader("Authorization") String token) { return events.register(eventId, auth.requireUser(token)); }
 
     @ExceptionHandler(EventNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -48,4 +53,7 @@ public class EventController {
     @ExceptionHandler(EventCapacityException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     Map<String, String> capacity() { return Map.of("message", "Capacity cannot be lower than the current registrations."); }
+    @ExceptionHandler(ProfileIncompleteException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    Map<String, String> profileIncomplete() { return Map.of("message", "Complete your profile before registering for an event."); }
 }
