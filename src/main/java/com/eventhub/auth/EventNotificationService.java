@@ -18,7 +18,7 @@ public class EventNotificationService {
 
     public EventNotificationService(UserRepository users, ObjectProvider<JavaMailSender> mail,
                                     @Value("${app.email.enabled:false}") boolean emailEnabled,
-                                    @Value("${app.email.from}") String from,
+                                    @Value("${app.email.from:no-reply@eventhub.local}") String from,
                                     @Value("${app.client-origin}") String clientOrigin) {
         this.users = users; this.mail = mail; this.emailEnabled = emailEnabled; this.from = from; this.clientOrigin = clientOrigin;
     }
