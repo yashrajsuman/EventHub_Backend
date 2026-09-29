@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
@@ -23,14 +24,18 @@ public class Event {
     private Integer capacity;
     private Integer numberOfDays;
     private BigDecimal dailyPay;
+    @Lob
+    private String imageUrl;
+    private String registrationNote;
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Registration> registrations = new ArrayList<>();
 
     protected Event() { }
 
-    public Event(String title, String description, String venue, LocalDateTime startsAt, Integer capacity, Integer numberOfDays, BigDecimal dailyPay) {
+    public Event(String title, String description, String venue, LocalDateTime startsAt, Integer capacity, Integer numberOfDays, BigDecimal dailyPay, String imageUrl, String registrationNote) {
         this.title = title; this.description = description; this.venue = venue;
         this.startsAt = startsAt; this.capacity = capacity; this.numberOfDays = numberOfDays; this.dailyPay = dailyPay;
+        this.imageUrl = imageUrl; this.registrationNote = registrationNote;
     }
     public Long getId() { return id; }
     public String getTitle() { return title; }
@@ -40,13 +45,16 @@ public class Event {
     public Integer getCapacity() { return capacity; }
     public Integer getNumberOfDays() { return numberOfDays; }
     public BigDecimal getDailyPay() { return dailyPay; }
+    public String getImageUrl() { return imageUrl; }
+    public String getRegistrationNote() { return registrationNote; }
     public List<Registration> getRegistrations() { return registrations; }
     public void addRegistration(Registration registration) {
         registration.setEvent(this);
         registrations.add(registration);
     }
-    public void update(String title, String description, String venue, LocalDateTime startsAt, Integer capacity, Integer numberOfDays, BigDecimal dailyPay) {
+    public void update(String title, String description, String venue, LocalDateTime startsAt, Integer capacity, Integer numberOfDays, BigDecimal dailyPay, String imageUrl, String registrationNote) {
         this.title = title; this.description = description; this.venue = venue; this.startsAt = startsAt;
         this.capacity = capacity; this.numberOfDays = numberOfDays; this.dailyPay = dailyPay;
+        this.imageUrl = imageUrl; this.registrationNote = registrationNote;
     }
 }

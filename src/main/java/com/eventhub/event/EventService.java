@@ -17,7 +17,7 @@ public class EventService {
 
     @Transactional
     public EventResponse create(CreateEventRequest request) {
-        Event event = events.save(new Event(request.title(), request.description(), request.venue(), request.startsAt(), request.capacity(), request.numberOfDays(), request.dailyPay()));
+        Event event = events.save(new Event(request.title(), request.description(), request.venue(), request.startsAt(), request.capacity(), request.numberOfDays(), request.dailyPay(), request.imageUrl(), request.registrationNote()));
         notifications.notifyEventPublished(event.getTitle(), event.getVenue(), event.getStartsAt().format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy 'at' h:mm a")), event.getDailyPay().toPlainString(), event.getNumberOfDays().toString());
         return EventResponse.from(event);
     }
@@ -36,7 +36,7 @@ public class EventService {
     public EventResponse update(Long eventId, CreateEventRequest request) {
         Event event = eventWithRegistrations(eventId);
         if (request.capacity() < event.getRegistrations().size()) throw new EventCapacityException();
-        event.update(request.title(), request.description(), request.venue(), request.startsAt(), request.capacity(), request.numberOfDays(), request.dailyPay());
+        event.update(request.title(), request.description(), request.venue(), request.startsAt(), request.capacity(), request.numberOfDays(), request.dailyPay(), request.imageUrl(), request.registrationNote());
         return EventResponse.from(event);
     }
     @Transactional

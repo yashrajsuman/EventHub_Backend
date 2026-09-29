@@ -14,4 +14,6 @@ public record CreateEventRequest(
         @NotNull @Future LocalDateTime startsAt,
         @NotNull @Min(1) Integer capacity,
         @NotNull @Min(1) Integer numberOfDays,
-        @NotNull @jakarta.validation.constraints.DecimalMin(value = "0.01") BigDecimal dailyPay) { }
+        @NotNull @jakarta.validation.constraints.DecimalMin(value = "0.01") BigDecimal dailyPay,
+        @jakarta.validation.constraints.Size(max = 7_000_000) String imageUrl,
+        @jakarta.validation.constraints.Size(max = 2_000) String registrationNote) { }
