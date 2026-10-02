@@ -26,6 +26,7 @@ public class Event {
     private BigDecimal dailyPay;
     @Lob
     private String imageUrl;
+    @Lob
     private String registrationNote;
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Registration> registrations = new ArrayList<>();
